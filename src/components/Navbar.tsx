@@ -1,11 +1,13 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { Wallet, Menu, Loader2, LogOut } from 'lucide-react';
 import { useWallet } from '@/context/WalletContext';
 
 export default function Navbar() {
     const { isConnected, isConnecting, walletAddress, connectWallet, disconnectWallet, balanceSc } = useWallet();
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     return (
         <nav className="border-b border-white/10 bg-black/50 backdrop-blur-md sticky top-0 z-50">
@@ -69,12 +71,90 @@ export default function Navbar() {
                     </div>
 
                     <div className="md:hidden">
-                        <button className="p-2 text-gray-300">
+                        <button
+                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                            className="p-2 text-gray-300 hover:text-white transition-colors"
+                        >
                             <Menu className="h-6 w-6" />
                         </button>
                     </div>
                 </div>
             </div>
+
+            {/* Mobile Menu */}
+            {isMobileMenuOpen && (
+                <div className="md:hidden border-t border-white/10 bg-black/95 backdrop-blur-xl absolute w-full left-0">
+                    <div className="px-4 pt-2 pb-6 space-y-2">
+                        <Link
+                            href="/jobs"
+                            className="block px-3 py-3 text-base font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                            仕事を探す
+                        </Link>
+                        <Link
+                            href="/hubs"
+                            className="block px-3 py-3 text-base font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                            ハブを探す
+                        </Link>
+                        <Link
+                            href="/providers"
+                            className="block px-3 py-3 text-base font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                            事業者の方へ
+                        </Link>
+                        <Link
+                            href="/dashboard"
+                            className="block px-3 py-3 text-base font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                            マイページ
+                        </Link>
+
+                        <div className="pt-4 border-t border-white/10 mt-4">
+                            {isConnected ? (
+                                <div className="space-y-3 px-3">
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-gray-400">Balance</span>
+                                        <span className="font-bold text-primary">{balanceSc.toLocaleString()} SC</span>
+                                    </div>
+                                    <button
+                                        onClick={() => {
+                                            disconnectWallet();
+                                            setIsMobileMenuOpen(false);
+                                        }}
+                                        className="w-full flex items-center justify-center gap-2 bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-xl hover:bg-red-500/20 transition-colors font-bold"
+                                    >
+                                        <span>{walletAddress}</span>
+                                        <LogOut className="h-4 w-4" />
+                                    </button>
+                                </div>
+                            ) : (
+                                <button
+                                    onClick={() => {
+                                        connectWallet();
+                                        setIsMobileMenuOpen(false);
+                                    }}
+                                    disabled={isConnecting}
+                                    className="w-full bg-primary text-black px-4 py-3 rounded-xl hover:bg-emerald-400 transition-colors font-bold flex items-center justify-center gap-2"
+                                >
+                                    {isConnecting ? (
+                                        <>
+                                            <Loader2 className="h-4 w-4 animate-spin" />
+                                            接続中...
+                                        </>
+                                    ) : (
+                                        'ウォレット接続'
+                                    )}
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
         </nav>
     );
 }
