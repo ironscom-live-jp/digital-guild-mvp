@@ -7,13 +7,13 @@ import { mockJobs } from '@/lib/mockData';
 import { CheckCircle, Clock, MapPin, Loader2 } from 'lucide-react';
 
 export default function ActiveJobs() {
-    const { addBalance } = useWallet();
+    const { activeJobIds, completeJob } = useWallet();
     const [completingJobId, setCompletingJobId] = useState<string | null>(null);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [targetJob, setTargetJob] = useState<Job | null>(null);
 
-    // Filter jobs that user has "applied" to (mock logic: just show first job as active)
-    const activeJob = mockJobs[0];
+    // Filter jobs that user has applied to
+    const activeJobs = mockJobs.filter(job => activeJobIds.includes(job.id));
 
     const handleCompleteClick = (job: Job) => {
         setTargetJob(job);
@@ -29,10 +29,25 @@ export default function ActiveJobs() {
         // Simulate network delay
         await new Promise(resolve => setTimeout(resolve, 1500));
 
-        addBalance(targetJob.hourlyWageJpy, targetJob.hourlyWageSc);
+        completeJob(targetJob.id, targetJob.hourlyWageSc);
         setCompletingJobId(null);
         setTargetJob(null);
     };
+
+    if (activeJobs.length === 0) {
+        return (
+            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 relative">
+                <h3 className="font-bold text-white mb-4 flex items-center gap-2">
+                    <Clock className="h-5 w-5 text-primary" />
+                    進行中の案件
+                </h3>
+                <div className="text-center py-8 text-gray-400">
+                    <p>現在進行中の仕事はありません。</p>
+                    <p className="text-sm mt-2">「仕事を探す」から応募してみましょう。</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <>
@@ -42,44 +57,48 @@ export default function ActiveJobs() {
                     進行中の案件
                 </h3>
 
-                <div className="border border-white/10 rounded-xl p-4 bg-white/5">
-                    <div className="flex justify-between items-start mb-3">
-                        <div>
-                            <h4 className="font-bold text-white">{activeJob.title}</h4>
-                            <div className="flex items-center text-sm text-gray-400 gap-2 mt-1">
-                                <MapPin className="h-3 w-3" />
-                                {activeJob.location}
+                <div className="space-y-4">
+                    {activeJobs.map(job => (
+                        <div key={job.id} className="border border-white/10 rounded-xl p-4 bg-white/5">
+                            <div className="flex justify-between items-start mb-3">
+                                <div>
+                                    <h4 className="font-bold text-white">{job.title}</h4>
+                                    <div className="flex items-center text-sm text-gray-400 gap-2 mt-1">
+                                        <MapPin className="h-3 w-3" />
+                                        {job.location}
+                                    </div>
+                                </div>
+                                <span className="bg-blue-500/20 text-blue-300 text-xs font-bold px-2 py-1 rounded-full border border-blue-500/30">
+                                    作業中
+                                </span>
+                            </div>
+
+                            <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/10">
+                                <div className="text-sm">
+                                    <span className="text-gray-400">報酬: </span>
+                                    <span className="font-bold text-primary">{job.hourlyWageSc.toLocaleString()} SC</span>
+                                </div>
+
+                                <button
+                                    onClick={() => handleCompleteClick(job)}
+                                    disabled={completingJobId === job.id}
+                                    className="flex items-center gap-2 bg-primary text-black px-4 py-2 rounded-lg text-sm font-bold hover:bg-emerald-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-primary/20"
+                                >
+                                    {completingJobId === job.id ? (
+                                        <>
+                                            <Loader2 className="h-4 w-4 animate-spin" />
+                                            処理中...
+                                        </>
+                                    ) : (
+                                        <>
+                                            <CheckCircle className="h-4 w-4" />
+                                            作業完了
+                                        </>
+                                    )}
+                                </button>
                             </div>
                         </div>
-                        <span className="bg-blue-500/20 text-blue-300 text-xs font-bold px-2 py-1 rounded-full border border-blue-500/30">
-                            作業中
-                        </span>
-                    </div>
-
-                    <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/10">
-                        <div className="text-sm">
-                            <span className="text-gray-400">報酬: </span>
-                            <span className="font-bold text-primary">{activeJob.hourlyWageSc.toLocaleString()} SC</span>
-                        </div>
-
-                        <button
-                            onClick={() => handleCompleteClick(activeJob)}
-                            disabled={completingJobId === activeJob.id}
-                            className="flex items-center gap-2 bg-primary text-black px-4 py-2 rounded-lg text-sm font-bold hover:bg-emerald-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-primary/20"
-                        >
-                            {completingJobId === activeJob.id ? (
-                                <>
-                                    <Loader2 className="h-4 w-4 animate-spin" />
-                                    処理中...
-                                </>
-                            ) : (
-                                <>
-                                    <CheckCircle className="h-4 w-4" />
-                                    作業完了
-                                </>
-                            )}
-                        </button>
-                    </div>
+                    ))}
                 </div>
             </div>
 

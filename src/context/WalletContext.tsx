@@ -11,6 +11,9 @@ interface WalletContextType {
     walletAddress: string | null;
     connectWallet: () => Promise<void>;
     disconnectWallet: () => void;
+    activeJobIds: string[];
+    applyToJob: (jobId: string) => void;
+    completeJob: (jobId: string, rewardSc: number) => void;
 }
 
 const WalletContext = createContext<WalletContextType | undefined>(undefined);
@@ -22,10 +25,22 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     const [isConnected, setIsConnected] = useState(false);
     const [isConnecting, setIsConnecting] = useState(false);
     const [walletAddress, setWalletAddress] = useState<string | null>(null);
+    const [activeJobIds, setActiveJobIds] = useState<string[]>([]);
 
     const addBalance = (amountJpy: number, amountSc: number) => {
         setBalanceJpy(prev => prev + amountJpy);
         setBalanceSc(prev => prev + amountSc);
+    };
+
+    const applyToJob = (jobId: string) => {
+        if (!activeJobIds.includes(jobId)) {
+            setActiveJobIds(prev => [...prev, jobId]);
+        }
+    };
+
+    const completeJob = (jobId: string, rewardSc: number) => {
+        setActiveJobIds(prev => prev.filter(id => id !== jobId));
+        setBalanceSc(prev => prev + rewardSc);
     };
 
     const connectWallet = async () => {
@@ -52,7 +67,10 @@ export function WalletProvider({ children }: { children: ReactNode }) {
             isConnecting,
             walletAddress,
             connectWallet,
-            disconnectWallet
+            disconnectWallet,
+            activeJobIds,
+            applyToJob,
+            completeJob
         }}>
             {children}
         </WalletContext.Provider>

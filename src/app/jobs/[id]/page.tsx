@@ -110,7 +110,7 @@ export default async function JobDetailPage({ params }: { params: Promise<{ id: 
                                     </div>
                                 </div>
 
-                                <ApplyButton />
+                                <ApplyButton jobId={job.id} />
                             </div>
                         </div>
                     </div>
