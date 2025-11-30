@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import JobList from "@/components/jobs/JobList";
@@ -23,7 +24,9 @@ export default function JobsPage() {
                         </p>
                     </div>
 
-                    <JobList initialJobs={mockJobs} />
+                    <Suspense fallback={<div className="text-center text-white">Loading...</div>}>
+                        <JobList initialJobs={mockJobs} />
+                    </Suspense>
                 </div>
             </main>
 
