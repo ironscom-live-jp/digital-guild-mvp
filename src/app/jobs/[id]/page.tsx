@@ -2,8 +2,7 @@ import { notFound } from 'next/navigation';
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { mockJobs } from "@/lib/mockData";
-import { MapPin, Clock, Users, Coins, Briefcase, Calendar, CheckCircle } from 'lucide-react';
-import Link from 'next/link';
+import { MapPin, Coins, Briefcase, Calendar } from 'lucide-react';
 import ApplyButton from "@/components/jobs/ApplyButton";
 
 // In a real app, this would be async and fetch data

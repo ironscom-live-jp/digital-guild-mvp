@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Job } from '@/types';
 import JobCard from './JobCard';
 import { Search, Filter } from 'lucide-react';
@@ -14,7 +14,7 @@ export default function JobList({ initialJobs }: JobListProps) {
     const searchParams = useSearchParams();
     const initialSearch = searchParams.get('search') || '';
     const [searchTerm, setSearchTerm] = useState(initialSearch);
-    const [jobs, setJobs] = useState(initialJobs);
+    const [jobs] = useState(initialJobs);
 
     const filteredJobs = jobs.filter(job =>
         job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||

@@ -3,7 +3,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { mockHubs } from "@/lib/mockData";
-import { MapPin, Wifi, Coffee, Car, Bath, ArrowRight, CheckCircle2, Star } from 'lucide-react';
+import { MapPin, ArrowRight, CheckCircle2, Star } from 'lucide-react';
 import Link from "next/link";
 import { useParams, notFound } from "next/navigation";
 

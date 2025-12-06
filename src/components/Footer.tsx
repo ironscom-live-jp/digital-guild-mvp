@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Wallet } from 'lucide-react';
 
 export default function Footer() {
@@ -21,18 +22,18 @@ export default function Footer() {
                     <div>
                         <h3 className="font-bold text-white mb-4">サービス</h3>
                         <ul className="space-y-2 text-sm text-gray-400">
-                            <li><a href="/jobs" className="hover:text-primary transition-colors">仕事を探す</a></li>
-                            <li><a href="/hubs" className="hover:text-primary transition-colors">ハブ一覧</a></li>
-                            <li><a href="#" className="hover:text-primary transition-colors">SCウォレット</a></li>
+                            <li><Link href="/jobs" className="hover:text-primary transition-colors">仕事を探す</Link></li>
+                            <li><Link href="/hubs" className="hover:text-primary transition-colors">ハブ一覧</Link></li>
+                            <li><Link href="#" className="hover:text-primary transition-colors">SCウォレット</Link></li>
                         </ul>
                     </div>
 
                     <div>
                         <h3 className="font-bold text-white mb-4">サポート</h3>
                         <ul className="space-y-2 text-sm text-gray-400">
-                            <li><a href="#" className="hover:text-primary transition-colors">ヘルプセンター</a></li>
-                            <li><a href="#" className="hover:text-primary transition-colors">利用規約</a></li>
-                            <li><a href="#" className="hover:text-primary transition-colors">プライバシーポリシー</a></li>
+                            <li><Link href="#" className="hover:text-primary transition-colors">ヘルプセンター</Link></li>
+                            <li><Link href="#" className="hover:text-primary transition-colors">利用規約</Link></li>
+                            <li><Link href="#" className="hover:text-primary transition-colors">プライバシーポリシー</Link></li>
                         </ul>
                     </div>
                 </div>

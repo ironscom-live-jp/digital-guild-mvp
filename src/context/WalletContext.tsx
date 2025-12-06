@@ -42,7 +42,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
             amount: 5000,
             currency: 'SC',
             description: '初回ボーナス',
-            timestamp: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
+            timestamp: '2025-12-06T09:00:00.000Z', // 1 day ago (mock)
         }
     ]);
     const [jobs, setJobs] = useState<Job[]>(mockJobs);
@@ -120,7 +120,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     };
 
     // Deprecated: kept for compatibility if needed, but should use reportCompletion -> approveCompletion
-    const completeJob = (jobId: string, rewardSc: number) => {
+    const completeJob = (jobId: string, _rewardSc: number) => {
         reportCompletion(jobId);
     };
 

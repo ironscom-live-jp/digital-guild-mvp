@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useWallet } from '@/context/WalletContext';
-import { CheckCircle, Clock, Loader2, User } from 'lucide-react';
+import { CheckCircle, Loader2, User } from 'lucide-react';
 
 export default function ApprovalQueue() {
     const { applications, jobs, approveCompletion } = useWallet();
