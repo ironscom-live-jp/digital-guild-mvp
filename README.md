@@ -28,6 +28,17 @@ Digital Guild SystemのMVP（Minimum Viable Product）デモモックへよう�
     ブラウザを開き、以下のURLにアクセスしてください。
     [http://localhost:3000](http://localhost:3000)
 
+## 🌍 デプロイ (Deployment)
+
+このプロジェクトは **Firebase App Hosting** へのデプロイに対応しています。
+Next.js アプリケーションは、GitHub リポジトリ経由で自動的にビルド・デプロイされます。
+
+### 手順概要
+1. GitHub にリポジトリを作成し、コードをプッシュします。
+2. Firebase Console で App Hosting を設定し、GitHub リポジトリと連携します。
+
+詳細な手順については、[デプロイガイド (firebase_guide.md)](./firebase_guide.md) を参照してください。
+
 ## 📖 デモシナリオ (Demo Walkthrough)
 
 このデモでは、**Worker（働き手）** と **Provider（事業者）** の2つの役割を体験できます。
