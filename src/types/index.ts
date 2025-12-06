@@ -35,7 +35,7 @@ export interface Job {
     imageUrl?: string;
 }
 
-export type ApplicationStatus = 'pending' | 'approved' | 'rejected' | 'completed';
+export type ApplicationStatus = 'pending' | 'approved' | 'rejected' | 'pending_completion_approval' | 'completed';
 
 export interface Application {
     id: string;
@@ -43,4 +43,17 @@ export interface Application {
     workerId: string;
     status: ApplicationStatus;
     appliedAt: string; // ISO string
+}
+
+export type TransactionType = 'reward' | 'payment' | 'deposit' | 'withdraw';
+
+export interface Transaction {
+    id: string;
+    userId: string;
+    type: TransactionType;
+    amount: number;
+    currency: 'JPY' | 'SC';
+    description: string;
+    timestamp: string; // ISO string
+    receiptId?: string;
 }

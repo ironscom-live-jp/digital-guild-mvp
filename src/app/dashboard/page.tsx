@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import WalletCard from "@/components/dashboard/WalletCard";
 import HubProgress from "@/components/dashboard/HubProgress";
 import ActiveJobs from "@/components/dashboard/ActiveJobs";
+import TransactionHistory from "@/components/wallet/TransactionHistory";
 export default function DashboardPage() {
     return (
         <div className="min-h-screen flex flex-col bg-background">
@@ -46,6 +47,8 @@ export default function DashboardPage() {
                         {/* Right Column: Hub & Notifications */}
                         <div className="space-y-8">
                             <HubProgress />
+
+                            <TransactionHistory />
 
                             <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
                                 <h3 className="font-bold text-white mb-4">お知らせ</h3>
